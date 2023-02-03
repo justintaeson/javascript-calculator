@@ -12,7 +12,11 @@ class Calculator {
   }
 
   delete() {
-    this.currentOperand = "";
+    if (this.currentOperand === "") return;
+    this.currentOperand = this.currentOperand.substring(
+      0,
+      this.currentOperand.length - 1
+    );
     this.updateDisplay();
   }
 
@@ -107,4 +111,8 @@ clearButton.addEventListener("click", () => {
 equalButton.addEventListener("click", () => {
   calculator.compute();
   calculator.updateDisplay();
+});
+
+deleteButton.addEventListener("click", () => {
+  calculator.delete();
 });
