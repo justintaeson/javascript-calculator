@@ -12,13 +12,16 @@ class Calculator {
   }
 
   delete() {
-    console.log(this.currentOperand);
     this.currentOperand = "";
     this.updateDisplay();
   }
 
   appendNumber(number) {
     if (number === "." && this.currentOperand.includes(".")) return;
+
+    if (this.operation !== undefined && this.previousOperand === "") {
+      this.clear();
+    }
     this.currentOperand = this.currentOperand.toString() + number.toString();
   }
 
@@ -34,10 +37,30 @@ class Calculator {
   }
 
   compute() {
-    console.log(this.operation);
-    if (this.operation === "+") {
-      this.currentOperand = this.previousOperand + this.currentOperand;
-      this.previousOperand = "";
+    switch (this.operation) {
+      case "+":
+        this.currentOperand =
+          Number(this.previousOperand) + Number(this.currentOperand);
+        this.previousOperand = "";
+        break;
+
+      case "-":
+        this.currentOperand =
+          Number(this.previousOperand) - Number(this.currentOperand);
+        this.previousOperand = "";
+        break;
+
+      case "*":
+        this.currentOperand =
+          Number(this.previousOperand) * Number(this.currentOperand);
+        this.previousOperand = "";
+        break;
+
+      case "÷":
+        this.currentOperand =
+          Number(this.previousOperand) / Number(this.currentOperand);
+        this.previousOperand = "";
+        break;
     }
   }
 
@@ -78,5 +101,10 @@ operationButtons.forEach((button) => {
 
 clearButton.addEventListener("click", () => {
   calculator.clear();
+  calculator.updateDisplay();
+});
+
+equalButton.addEventListener("click", () => {
+  calculator.compute();
   calculator.updateDisplay();
 });
